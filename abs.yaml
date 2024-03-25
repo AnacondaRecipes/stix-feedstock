@@ -3,5 +3,5 @@ upload_channels:
 
 channels:
     - https://staging.continuum.io/prefect/fs/mixbox-feedstock/pr1/ed72198
-    - https://staging.continuum.io/prefect/fs/cybox-feedstock/pr1/3f171ad
+    - https://staging.continuum.io/prefect/fs/cybox-feedstock/pr1/80aa509
     - https://staging.continuum.io/prefect/fs/weakrefmethod-feedstock/pr1/18aab14
