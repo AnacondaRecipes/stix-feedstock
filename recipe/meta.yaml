@@ -69,8 +69,10 @@ test:
     - stix.utils
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - pytest -v --pyargs stix
 
 about:
   home: https://stixproject.github.io
