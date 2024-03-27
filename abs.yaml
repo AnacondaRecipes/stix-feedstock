@@ -2,6 +2,4 @@ upload_channels:
   - sfe1ed40
 
 channels:
-    - https://staging.continuum.io/prefect/fs/mixbox-feedstock/pr1/281fd58
     - https://staging.continuum.io/prefect/fs/cybox-feedstock/pr1/ae9f3e8
-    - https://staging.continuum.io/prefect/fs/weakrefmethod-feedstock/pr1/18aab14
