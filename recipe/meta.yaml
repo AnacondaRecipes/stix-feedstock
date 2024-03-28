@@ -1,0 +1,88 @@
+{% set name = "stix" %}
+{% set version = "1.2.0.11" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: b23a1ca70227e17f42cd0a9f109737f321175f6fe97be5cb24fd4d189dbb1601
+  patches:
+    - patches/0001-do-not-use-mixbox.vendor.six.patch
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+
+requirements:
+  build:
+    - patch       # [not win]
+    - m2-patch    # [win]
+  host:
+    - python
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - cybox >=2.1.0.13,<2.1.1.0
+    - lxml >=2.2.3
+    - mixbox >=1.0.4
+    - python-dateutil
+
+test:
+  imports:
+    - stix
+    - stix.bindings
+    - stix.bindings.extensions
+    - stix.bindings.extensions.address
+    - stix.bindings.extensions.attack_pattern
+    - stix.bindings.extensions.identity
+    - stix.bindings.extensions.malware
+    - stix.bindings.extensions.marking
+    - stix.bindings.extensions.structured_coa
+    - stix.bindings.extensions.test_mechanism
+    - stix.bindings.extensions.vulnerability
+    - stix.campaign
+    - stix.coa
+    - stix.common
+    - stix.common.kill_chains
+    - stix.core
+    - stix.exploit_target
+    - stix.extensions
+    - stix.extensions.identity
+    - stix.extensions.malware
+    - stix.extensions.marking
+    - stix.extensions.structured_coa
+    - stix.extensions.test_mechanism
+    - stix.incident
+    - stix.indicator
+    - stix.report
+    - stix.threat_actor
+    - stix.ttp
+    - stix.utils
+  requires:
+    - pip
+    - pytest
+  commands:
+    - pip check
+    - pytest -v --pyargs stix  # [not s390x]
+    # skip these tests on s390x for rounding problem
+    - pytest -v --pyargs stix -k "not (test_utf16_roundtrip or test_from_xml_utf16_encoded)"  # [s390x]
+
+about:
+  home: https://stixproject.github.io
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE.txt
+  summary: An API for parsing and generating STIX content.
+  description: |
+    A python library for parsing, manipulating, and generating
+    Structured Threat Information eXpression (STIX™) v1.2.0 content.
+  doc_url: https://stix.readthedocs.io
+  dev_url: https://github.com/STIXProject/python-stix
+
+extra:
+  recipe-maintainers:
+    - lorepirri

@@ -1,0 +1,640 @@
+From 57958dfe224bce88bb2be071b57f0b0a19a6481c Mon Sep 17 00:00:00 2001
+From: Lorenzo Pirritano <lpirritano@anaconda.com>
+Date: Tue, 26 Mar 2024 14:08:55 -0600
+Subject: [PATCH] do not use mixbox.vendor.six
+
+---
+ stix/__init__.py                                               | 2 +-
+ stix/base.py                                                   | 2 +-
+ stix/bindings/campaign.py                                      | 2 +-
+ stix/bindings/course_of_action.py                              | 2 +-
+ stix/bindings/data_marking.py                                  | 2 +-
+ stix/bindings/exploit_target.py                                | 2 +-
+ stix/bindings/extensions/address/ciq_address_3_0.py            | 2 +-
+ stix/bindings/extensions/attack_pattern/capec_2_7.py           | 2 +-
+ stix/bindings/extensions/identity/ciq_identity_3_0.py          | 2 +-
+ stix/bindings/extensions/malware/maec_4_1.py                   | 2 +-
+ stix/bindings/extensions/marking/ais.py                        | 2 +-
+ stix/bindings/extensions/marking/simple_marking.py             | 2 +-
+ stix/bindings/extensions/marking/terms_of_use_marking.py       | 2 +-
+ stix/bindings/extensions/marking/tlp.py                        | 2 +-
+ stix/bindings/extensions/structured_coa/generic.py             | 2 +-
+ stix/bindings/extensions/test_mechanism/generic.py             | 2 +-
+ stix/bindings/extensions/test_mechanism/open_ioc_2010.py       | 2 +-
+ stix/bindings/extensions/test_mechanism/oval_5_10.py           | 2 +-
+ stix/bindings/extensions/test_mechanism/snort.py               | 2 +-
+ stix/bindings/extensions/test_mechanism/yara.py                | 2 +-
+ stix/bindings/extensions/vulnerability/cvrf_1_1.py             | 2 +-
+ stix/bindings/incident.py                                      | 2 +-
+ stix/bindings/indicator.py                                     | 2 +-
+ stix/bindings/report.py                                        | 2 +-
+ stix/bindings/stix_common.py                                   | 2 +-
+ stix/bindings/stix_core.py                                     | 2 +-
+ stix/bindings/threat_actor.py                                  | 2 +-
+ stix/bindings/ttp.py                                           | 2 +-
+ stix/common/__init__.py                                        | 2 +-
+ stix/common/structured_text.py                                 | 2 +-
+ stix/extensions/identity/ciq_identity_3_0.py                   | 2 +-
+ stix/extensions/test_mechanism/open_ioc_2010_test_mechanism.py | 2 +-
+ stix/test/__init__.py                                          | 2 +-
+ stix/test/common/structured_text_test.py                       | 2 +-
+ stix/test/core/stix_package_test.py                            | 2 +-
+ stix/test/encoding_test.py                                     | 2 +-
+ stix/test/extensions/identity/ciq_identity_3_0_test.py         | 2 +-
+ stix/test/extensions/malware/maec_4_1_malware_test.py          | 2 +-
+ stix/test/extensions/test_mechanisms/openioc_test.py           | 2 +-
+ stix/test/incident_test.py                                     | 2 +-
+ stix/test/indicator_test.py                                    | 2 +-
+ stix/test/utils/nsparser_test.py                               | 2 +-
+ stix/test/utils/parser_test.py                                 | 2 +-
+ stix/utils/__init__.py                                         | 2 +-
+ stix/utils/walk.py                                             | 2 +-
+ 45 files changed, 45 insertions(+), 45 deletions(-)
+
+diff --git a/stix/__init__.py b/stix/__init__.py
+index f30b8a1..a29008c 100644
+--- a/stix/__init__.py
++++ b/stix/__init__.py
+@@ -5,7 +5,7 @@
+ from .base import (Entity, EntityList, TypedCollection, TypedList,  # noqa
+                    BaseCoreComponent)
+ 
+-from mixbox.vendor.six import string_types, iteritems
++from six import string_types, iteritems
+ 
+ #: Mapping of xsi:types to implementation/extension classes
+ _EXTENSION_MAP = {}
+diff --git a/stix/base.py b/stix/base.py
+index 82d1d00..65bc186 100644
+--- a/stix/base.py
++++ b/stix/base.py
+@@ -14,7 +14,7 @@ from mixbox import entities
+ from mixbox import fields
+ from mixbox import binding_utils
+ from mixbox import namespaces
+-from mixbox.vendor.six import StringIO, iteritems, itervalues, text_type, binary_type
++from six import StringIO, iteritems, itervalues, text_type, binary_type
+ 
+ # internal
+ from . import utils
+diff --git a/stix/bindings/campaign.py b/stix/bindings/campaign.py
+index 6c25837..4f477df 100644
+--- a/stix/bindings/campaign.py
++++ b/stix/bindings/campaign.py
+@@ -764,7 +764,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/course_of_action.py b/stix/bindings/course_of_action.py
+index 223cd59..e34bacf 100644
+--- a/stix/bindings/course_of_action.py
++++ b/stix/bindings/course_of_action.py
+@@ -586,7 +586,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/data_marking.py b/stix/bindings/data_marking.py
+index 3a3e6ba..a168bd0 100644
+--- a/stix/bindings/data_marking.py
++++ b/stix/bindings/data_marking.py
+@@ -406,7 +406,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/exploit_target.py b/stix/bindings/exploit_target.py
+index eaf60cd..d1e58a1 100644
+--- a/stix/bindings/exploit_target.py
++++ b/stix/bindings/exploit_target.py
+@@ -1038,7 +1038,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/address/ciq_address_3_0.py b/stix/bindings/extensions/address/ciq_address_3_0.py
+index cf4f7a4..d5e182b 100644
+--- a/stix/bindings/extensions/address/ciq_address_3_0.py
++++ b/stix/bindings/extensions/address/ciq_address_3_0.py
+@@ -159,7 +159,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/attack_pattern/capec_2_7.py b/stix/bindings/extensions/attack_pattern/capec_2_7.py
+index 26d166c..280712e 100644
+--- a/stix/bindings/extensions/attack_pattern/capec_2_7.py
++++ b/stix/bindings/extensions/attack_pattern/capec_2_7.py
+@@ -158,7 +158,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/identity/ciq_identity_3_0.py b/stix/bindings/extensions/identity/ciq_identity_3_0.py
+index 3bf39f5..b87ddab 100644
+--- a/stix/bindings/extensions/identity/ciq_identity_3_0.py
++++ b/stix/bindings/extensions/identity/ciq_identity_3_0.py
+@@ -176,7 +176,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/malware/maec_4_1.py b/stix/bindings/extensions/malware/maec_4_1.py
+index 8593c64..e03b945 100644
+--- a/stix/bindings/extensions/malware/maec_4_1.py
++++ b/stix/bindings/extensions/malware/maec_4_1.py
+@@ -157,7 +157,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/marking/ais.py b/stix/bindings/extensions/marking/ais.py
+index ee3c26b..8ffad06 100644
+--- a/stix/bindings/extensions/marking/ais.py
++++ b/stix/bindings/extensions/marking/ais.py
+@@ -534,7 +534,7 @@ def parseEtree(inFileName):
+ 
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/marking/simple_marking.py b/stix/bindings/extensions/marking/simple_marking.py
+index 84cca51..8030541 100644
+--- a/stix/bindings/extensions/marking/simple_marking.py
++++ b/stix/bindings/extensions/marking/simple_marking.py
+@@ -162,7 +162,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/marking/terms_of_use_marking.py b/stix/bindings/extensions/marking/terms_of_use_marking.py
+index a1b63d0..af8be59 100644
+--- a/stix/bindings/extensions/marking/terms_of_use_marking.py
++++ b/stix/bindings/extensions/marking/terms_of_use_marking.py
+@@ -163,7 +163,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/marking/tlp.py b/stix/bindings/extensions/marking/tlp.py
+index 7f44356..b7c9a76 100644
+--- a/stix/bindings/extensions/marking/tlp.py
++++ b/stix/bindings/extensions/marking/tlp.py
+@@ -159,7 +159,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/structured_coa/generic.py b/stix/bindings/extensions/structured_coa/generic.py
+index d42c9de..0e5dd75 100644
+--- a/stix/bindings/extensions/structured_coa/generic.py
++++ b/stix/bindings/extensions/structured_coa/generic.py
+@@ -177,7 +177,7 @@ def parse(inFileName):
+ 
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/test_mechanism/generic.py b/stix/bindings/extensions/test_mechanism/generic.py
+index dbfbe75..ee101fb 100644
+--- a/stix/bindings/extensions/test_mechanism/generic.py
++++ b/stix/bindings/extensions/test_mechanism/generic.py
+@@ -195,7 +195,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/test_mechanism/open_ioc_2010.py b/stix/bindings/extensions/test_mechanism/open_ioc_2010.py
+index abe23db..923abec 100644
+--- a/stix/bindings/extensions/test_mechanism/open_ioc_2010.py
++++ b/stix/bindings/extensions/test_mechanism/open_ioc_2010.py
+@@ -158,7 +158,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/test_mechanism/oval_5_10.py b/stix/bindings/extensions/test_mechanism/oval_5_10.py
+index 40172de..ecb2ebb 100644
+--- a/stix/bindings/extensions/test_mechanism/oval_5_10.py
++++ b/stix/bindings/extensions/test_mechanism/oval_5_10.py
+@@ -168,7 +168,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/test_mechanism/snort.py b/stix/bindings/extensions/test_mechanism/snort.py
+index 0c67e54..ef5c373 100644
+--- a/stix/bindings/extensions/test_mechanism/snort.py
++++ b/stix/bindings/extensions/test_mechanism/snort.py
+@@ -233,7 +233,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/test_mechanism/yara.py b/stix/bindings/extensions/test_mechanism/yara.py
+index 3ea7e8c..fdbccc9 100644
+--- a/stix/bindings/extensions/test_mechanism/yara.py
++++ b/stix/bindings/extensions/test_mechanism/yara.py
+@@ -169,7 +169,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/extensions/vulnerability/cvrf_1_1.py b/stix/bindings/extensions/vulnerability/cvrf_1_1.py
+index 68fb29c..2a19b63 100644
+--- a/stix/bindings/extensions/vulnerability/cvrf_1_1.py
++++ b/stix/bindings/extensions/vulnerability/cvrf_1_1.py
+@@ -159,7 +159,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/incident.py b/stix/bindings/incident.py
+index 12f9f6f..fa42c6a 100644
+--- a/stix/bindings/incident.py
++++ b/stix/bindings/incident.py
+@@ -2794,7 +2794,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import BytesIO
++    from six import BytesIO
+     doc = parsexml_(BytesIO(inString.encode('utf-8')))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/indicator.py b/stix/bindings/indicator.py
+index 2b85162..64d0773 100644
+--- a/stix/bindings/indicator.py
++++ b/stix/bindings/indicator.py
+@@ -1279,7 +1279,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/report.py b/stix/bindings/report.py
+index f07a3ee..5fcf01b 100644
+--- a/stix/bindings/report.py
++++ b/stix/bindings/report.py
+@@ -845,7 +845,7 @@ def get_root_tag(node):
+ 
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/stix_common.py b/stix/bindings/stix_common.py
+index 30ebfb4..a90410d 100644
+--- a/stix/bindings/stix_common.py
++++ b/stix/bindings/stix_common.py
+@@ -3996,7 +3996,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/stix_core.py b/stix/bindings/stix_core.py
+index 3c7b273..5d7869c 100644
+--- a/stix/bindings/stix_core.py
++++ b/stix/bindings/stix_core.py
+@@ -1055,7 +1055,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/threat_actor.py b/stix/bindings/threat_actor.py
+index 4b6a518..2235772 100644
+--- a/stix/bindings/threat_actor.py
++++ b/stix/bindings/threat_actor.py
+@@ -565,7 +565,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/bindings/ttp.py b/stix/bindings/ttp.py
+index b6e018e..61bcb0f 100644
+--- a/stix/bindings/ttp.py
++++ b/stix/bindings/ttp.py
+@@ -1614,7 +1614,7 @@ def parseEtree(inFileName):
+     return rootObj, rootElement
+ 
+ def parseString(inString):
+-    from mixbox.vendor.six import StringIO
++    from six import StringIO
+     doc = parsexml_(StringIO(inString))
+     rootNode = doc.getroot()
+     rootTag, rootClass = get_root_tag(rootNode)
+diff --git a/stix/common/__init__.py b/stix/common/__init__.py
+index ef70a2d..b59a280 100644
+--- a/stix/common/__init__.py
++++ b/stix/common/__init__.py
+@@ -31,7 +31,7 @@ import stix
+ import stix.utils as utils
+ import stix.bindings.stix_common as common_binding
+ 
+-from mixbox.vendor.six import text_type
++from six import text_type
+ 
+ class EncodedCDATA(stix.Entity):
+     _namespace = "http://stix.mitre.org/common-1"
+diff --git a/stix/common/structured_text.py b/stix/common/structured_text.py
+index b65aa01..4bfa348 100644
+--- a/stix/common/structured_text.py
++++ b/stix/common/structured_text.py
+@@ -10,7 +10,7 @@ from mixbox import fields
+ import stix
+ import stix.utils as utils
+ import stix.bindings.stix_common as stix_common_binding
+-from mixbox.vendor.six import PY2, PY3, text_type
++from six import PY2, PY3, text_type
+ 
+ 
+ if PY2:
+diff --git a/stix/extensions/identity/ciq_identity_3_0.py b/stix/extensions/identity/ciq_identity_3_0.py
+index afea9b7..ccfaf34 100644
+--- a/stix/extensions/identity/ciq_identity_3_0.py
++++ b/stix/extensions/identity/ciq_identity_3_0.py
+@@ -8,7 +8,7 @@ import stix.utils as utils
+ import stix.common as common
+ import stix.bindings.extensions.identity.ciq_identity_3_0 as ciq_identity_binding
+ 
+-from mixbox.vendor.six import string_types
++from six import string_types
+ 
+ 
+ XML_NS_XPIL     = "urn:oasis:names:tc:ciq:xpil:3"
+diff --git a/stix/extensions/test_mechanism/open_ioc_2010_test_mechanism.py b/stix/extensions/test_mechanism/open_ioc_2010_test_mechanism.py
+index 905bb31..cce47ad 100644
+--- a/stix/extensions/test_mechanism/open_ioc_2010_test_mechanism.py
++++ b/stix/extensions/test_mechanism/open_ioc_2010_test_mechanism.py
+@@ -5,7 +5,7 @@
+ from lxml import etree
+ import mixbox.xml
+ from mixbox.fields import TypedField
+-from mixbox.vendor.six import BytesIO, iteritems
++from six import BytesIO, iteritems
+ 
+ # internal
+ import stix
+diff --git a/stix/test/__init__.py b/stix/test/__init__.py
+index 5b508ad..3519f87 100644
+--- a/stix/test/__init__.py
++++ b/stix/test/__init__.py
+@@ -10,7 +10,7 @@ import warnings
+ import cybox.utils
+ from mixbox.binding_utils import ExternalEncoding
+ from mixbox.entities import NamespaceCollector
+-from mixbox.vendor.six import iteritems, text_type
++from six import iteritems, text_type
+ 
+ from stix.utils import silence_warnings
+ 
+diff --git a/stix/test/common/structured_text_test.py b/stix/test/common/structured_text_test.py
+index c1c4223..ef1b5a0 100644
+--- a/stix/test/common/structured_text_test.py
++++ b/stix/test/common/structured_text_test.py
+@@ -8,7 +8,7 @@ from stix.test import EntityTestCase, TypedListTestCase
+ 
+ from stix import common
+ 
+-from mixbox.vendor.six.moves import range
++from six.moves import range
+ 
+ 
+ class StructuredTextTests(unittest.TestCase, EntityTestCase):
+diff --git a/stix/test/core/stix_package_test.py b/stix/test/core/stix_package_test.py
+index bbd6785..c6adf52 100644
+--- a/stix/test/core/stix_package_test.py
++++ b/stix/test/core/stix_package_test.py
+@@ -4,7 +4,7 @@
+ import copy
+ import unittest
+ 
+-from mixbox.vendor.six import BytesIO
++from six import BytesIO
+ 
+ from stix.test import EntityTestCase, assert_warnings
+ from stix.test import report_test
+diff --git a/stix/test/encoding_test.py b/stix/test/encoding_test.py
+index d779837..6c1dc20 100644
+--- a/stix/test/encoding_test.py
++++ b/stix/test/encoding_test.py
+@@ -5,7 +5,7 @@
+ """Tests for various encoding issues throughout the library"""
+ 
+ import unittest
+-from mixbox.vendor.six import BytesIO, text_type
++from six import BytesIO, text_type
+ from mixbox import binding_utils
+ 
+ from stix.core import STIXHeader, STIXPackage
+diff --git a/stix/test/extensions/identity/ciq_identity_3_0_test.py b/stix/test/extensions/identity/ciq_identity_3_0_test.py
+index 8395e38..295266e 100644
+--- a/stix/test/extensions/identity/ciq_identity_3_0_test.py
++++ b/stix/test/extensions/identity/ciq_identity_3_0_test.py
+@@ -2,7 +2,7 @@
+ # See LICENSE.txt for complete terms.
+ 
+ import unittest
+-from mixbox.vendor.six import BytesIO, text_type
++from six import BytesIO, text_type
+ 
+ from stix.threat_actor import ThreatActor
+ import stix.extensions.identity.ciq_identity_3_0 as ciq
+diff --git a/stix/test/extensions/malware/maec_4_1_malware_test.py b/stix/test/extensions/malware/maec_4_1_malware_test.py
+index f9261fb..df47b0d 100644
+--- a/stix/test/extensions/malware/maec_4_1_malware_test.py
++++ b/stix/test/extensions/malware/maec_4_1_malware_test.py
+@@ -1,6 +1,6 @@
+ import unittest
+ from stix.core import STIXPackage
+-from mixbox.vendor.six import StringIO, text_type
++from six import StringIO, text_type
+ 
+ from stix.test import EntityTestCase
+ from stix.extensions.malware.maec_4_1_malware import MAECInstance
+diff --git a/stix/test/extensions/test_mechanisms/openioc_test.py b/stix/test/extensions/test_mechanisms/openioc_test.py
+index e4b1174..cd9e1f4 100644
+--- a/stix/test/extensions/test_mechanisms/openioc_test.py
++++ b/stix/test/extensions/test_mechanisms/openioc_test.py
+@@ -7,7 +7,7 @@ import lxml
+ 
+ from mixbox import idgen
+ from mixbox.namespaces import Namespace
+-from mixbox.vendor.six import StringIO, BytesIO
++from six import StringIO, BytesIO
+ import mixbox.xml
+ 
+ from stix.test import EntityTestCase
+diff --git a/stix/test/incident_test.py b/stix/test/incident_test.py
+index dfd78f6..01bba0e 100644
+--- a/stix/test/incident_test.py
++++ b/stix/test/incident_test.py
+@@ -3,7 +3,7 @@
+ 
+ import unittest
+ 
+-from mixbox.vendor.six import StringIO
++from six import StringIO
+ 
+ from stix.core import STIXPackage
+ from cybox.common import StructuredText
+diff --git a/stix/test/indicator_test.py b/stix/test/indicator_test.py
+index 37ccf4a..add5d27 100644
+--- a/stix/test/indicator_test.py
++++ b/stix/test/indicator_test.py
+@@ -7,7 +7,7 @@ import unittest
+ from cybox.core import Observable, ObservableComposition
+ from cybox.objects.file_object import File
+ import mixbox.typedlist
+-from mixbox.vendor.six import text_type
++from six import text_type
+ 
+ from stix.core import STIXPackage
+ from stix.indicator import Indicator, RelatedCampaignRefs, ValidTime
+diff --git a/stix/test/utils/nsparser_test.py b/stix/test/utils/nsparser_test.py
+index f1e2066..9eb4122 100644
+--- a/stix/test/utils/nsparser_test.py
++++ b/stix/test/utils/nsparser_test.py
+@@ -6,7 +6,7 @@ import unittest
+ 
+ # external
+ import lxml.etree
+-from mixbox.vendor.six import StringIO
++from six import StringIO
+ 
+ # internal
+ import mixbox.namespaces
+diff --git a/stix/test/utils/parser_test.py b/stix/test/utils/parser_test.py
+index 3c3d74d..56b8f5b 100644
+--- a/stix/test/utils/parser_test.py
++++ b/stix/test/utils/parser_test.py
+@@ -1,7 +1,7 @@
+ # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
+ # See LICENSE.txt for complete terms.
+ 
+-from mixbox.vendor.six import StringIO
++from six import StringIO
+ import unittest
+ 
+ from stix.utils import (EntityParser, UnknownVersionError,
+diff --git a/stix/utils/__init__.py b/stix/utils/__init__.py
+index 4b0a0b4..198d6aa 100644
+--- a/stix/utils/__init__.py
++++ b/stix/utils/__init__.py
+@@ -10,7 +10,7 @@ import lxml.etree
+ 
+ from mixbox.entities import Entity, EntityList
+ import mixbox.xml
+-from mixbox.vendor.six import iteritems, string_types
++from six import iteritems, string_types
+ 
+ import stix
+ 
+diff --git a/stix/utils/walk.py b/stix/utils/walk.py
+index b8e1af9..824dca4 100644
+--- a/stix/utils/walk.py
++++ b/stix/utils/walk.py
+@@ -6,7 +6,7 @@ import itertools
+ 
+ # external
+ from cybox.common import ObjectProperties
+-from mixbox.vendor.six import iteritems
++from six import iteritems
+ 
+ # internal
+ from . import is_entity, is_entitylist, attr_name, is_sequence
+-- 
+2.39.1
+
