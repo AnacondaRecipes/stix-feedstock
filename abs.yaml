@@ -1,5 +1,3 @@
 upload_channels:
   - sfe1ed40
 
-channels:
-    - https://staging.continuum.io/prefect/fs/cybox-feedstock/pr1/ae9f3e8
